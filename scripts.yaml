@@ -1,0 +1,15 @@
+puerta_calle:
+  alias: Abrir puerta calle
+  sequence:
+    - event: puerta_calle
+
+puerta_garaje:
+  alias: Abrir puerta garaje
+  sequence:
+    - event: puerta_garaje
+
+luces_portal:
+  alias: Encender/apagar luces portal
+  sequence:
+    - event: luces_portal
+

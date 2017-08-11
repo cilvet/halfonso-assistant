@@ -1,0 +1,28 @@
+default_view:
+    view: yes
+    icon: mdi:home 
+    entities:
+      - group.scripts
+      - group.automations
+      - group.switches
+
+scripts:
+    name: Scripts
+    control: hidden
+    entities:
+      - script.puerta_calle
+      - script.puerta_garaje
+      - script.luces_portal
+
+switches:
+    name: Switches
+    entities: 
+      - switch.switch_4
+
+automations:
+    name: Automations
+    entities:
+      - automation.puerta_calle
+      - automation.puerta_garaje
+      - automation.luces_portal
+

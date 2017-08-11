@@ -1,0 +1,95 @@
+#abre la puerta de la calle, manda evento
+- alias: Puerta calle
+  trigger:
+   - platform: event
+     event_type: puerta_calle
+  action:
+   - service: switch.toggle
+     entity_id: switch.puerta_calle
+   - delay: '00:00:01'
+   - service: switch.toggle
+     entity_id: switch.puerta_calle
+   - event: puerta_calle_abierta
+
+
+#abre puerta garaje
+- alias: Puerta garaje
+  trigger:
+   - platform: event
+     event_type: puerta_garaje
+  action:
+   - service: switch.toggle
+     entity_id: switch.puerta_garaje
+   - delay: '00:00:01'
+   - service: switch.toggle
+     entity_id: switch.puerta_garaje
+
+#Halfonso enciende luces del portal
+- alias: 'Comando telegram luces portal'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: '/luces'
+  action:
+    - service: switch.toggle
+      entity_id: switch.switch_4
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+    - delay: '00:00:01'
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+    - service: telegram_bot.send_message
+      data_template:
+        title: '*Sí, amo*'
+        target: '{{ trigger.event.data.user_id }}'
+        message: >
+          {% if is_state('switch.switch_4','on') %}
+            Luces encendidas
+          {% else %}
+            Luces apagadas
+          {% endif %}
+
+#enciende luces del portal directo
+- alias: Luces portal
+  hide_entity: false
+  trigger:
+    platform: event
+    event_type: luces_portal
+  action:
+    - service: switch.toggle
+      entity_id: switch.switch_4
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+    - delay: '00:00:01'
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+
+#enciende luces del portal si se abre la puerta y es de noche
+- alias: Luces portal de noche
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: puerta_calle_abierta
+  condition: 
+    condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+    - service: switch.toggle
+      entity_id: switch.switch_4
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+    - delay: '00:00:01'
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+    - delay: '00:00:45'
+    - service: switch.toggle
+      entity_id: switch.switch_4
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+    - delay: '00:00:01'
+    - service: switch.toggle
+      entity_id: switch.luces_portal
+

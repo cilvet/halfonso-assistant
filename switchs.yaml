@@ -1,0 +1,12 @@
+- platform: rpi_gpio
+  ports:
+      2: puerta_calle
+      3: puerta_garaje
+      11: luces_portal
+      17: switch_4
+      27: switch_5
+      22: switch_6
+      10: switch_7
+      9: switch_8
+  invert_logic: true
+
